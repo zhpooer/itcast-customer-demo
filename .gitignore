@@ -1,0 +1,13 @@
+# SBT .gitignore
+# recommended: http://code.google.com/p/simple-build-tool/wiki/Setup#Version_Control
+
+target/
+lib_managed/
+src_managed/
+project/boot/
+.history
+.idea_modules/
+*.iml
+*.ipr
+*.iws
+.idea/
