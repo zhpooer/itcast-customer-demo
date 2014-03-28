@@ -4,9 +4,13 @@ version := "1.0.0"
 
 scalaVersion := "2.10.3"
 
-scalaSource in Compile := baseDirectory.value / "src"
+scalaSource in Compile := baseDirectory.value / "src/scala"
 
-scalaSource in Test := baseDirectory.value / "test/src"
+javaSource in Compile := baseDirectory.value / "src/java"
+
+scalaSource in Test := baseDirectory.value / "test/scala"
+
+javaSource in Test := baseDirectory.value / "test/java"
 
 resourceDirectory in Compile := baseDirectory.value / "conf"
 
