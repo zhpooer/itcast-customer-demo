@@ -1,4 +1,4 @@
-name := "learn-seed"
+name := "servlet-demo2"
 
 version := "1.0.0"
 
@@ -35,6 +35,8 @@ libraryDependencies += "org.apache.tomcat" % "el-api" % "6.0.39" % "provided"
 libraryDependencies += "dom4j" % "dom4j" % "1.6.1"
 
 libraryDependencies += "jaxen" % "jaxen" % "1.1.6"
+
+libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.28"
 
 libraryDependencies += "org.scalatest" %% "scalatest" % "1.9.2" % "test"
 
