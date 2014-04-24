@@ -31,7 +31,6 @@ public class DbUtil {
 		}
 		return p;
 	}
-
 	public static void execSQL(String scriptPath, String driveClass,
 	        String url, String user, String passwd) {
 		SQLExec sqlExec = new SQLExec();
@@ -42,7 +41,7 @@ public class DbUtil {
 		sqlExec.setSrc(new File(scriptPath));
 		sqlExec.setOnerror((SQLExec.OnError) (EnumeratedAttribute.getInstance(
 		        SQLExec.OnError.class, "abort")));
-		sqlExec.setPrint(true);
+		sqlExec.setPrint(false);
 		sqlExec.setProject(new Project());
 		sqlExec.execute();
 	}

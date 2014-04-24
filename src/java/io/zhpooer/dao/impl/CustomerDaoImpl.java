@@ -151,4 +151,58 @@ public class CustomerDaoImpl implements CustomerDao {
 		}
 	}
 
+	@Override
+    public List<Customer> findPageCustomers(int offset, int size) {
+				Connection conn = null;
+		PreparedStatement stmt = null;
+		try {
+			conn = manager.getConnection();
+			stmt = conn
+			        .prepareStatement("select id, name, gender, birthday, cellphone"
+			                + ", email, hobby, type, description from customer limit ?,?");
+			stmt.setInt(1, offset);
+			stmt.setInt(2, size);
+			ResultSet rs = stmt.executeQuery();
+			List<Customer> l = new ArrayList<Customer>();
+			while (rs.next()) {
+				Customer c = new Customer();
+				c.setId(rs.getString(1));
+				c.setName(rs.getString(2));
+				c.setGender(rs.getString(3));
+				c.setBirthday(rs.getDate(4));
+				c.setCellphone(rs.getString(5));
+				c.setEmail(rs.getString(6));
+				c.setHobby(rs.getString(7));
+				c.setType(rs.getString(8));
+				c.setDescription(rs.getString(9));
+				l.add(c);
+			}
+			return l;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			manager.release(conn, stmt, null);
+		}
+
+    }
+
+	@Override
+    public int getTotalRecordsNum() {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try{
+			conn = manager.getConnection();
+			stmt = conn.prepareStatement("select count(*) from customer");
+			rs = stmt.executeQuery();
+			if(rs.next()) {
+				return rs.getInt(1);
+			}
+			return 0;
+		} catch (SQLException e) {
+		   throw new RuntimeException(e);
+		} finally{
+			manager.release(conn, stmt, null);			
+		}
+    }
 }

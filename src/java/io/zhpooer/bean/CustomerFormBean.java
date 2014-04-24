@@ -1,10 +1,7 @@
 package io.zhpooer.bean;
 
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
-
-import org.apache.commons.beanutils.locale.converters.DateLocaleConverter;
 
 public class CustomerFormBean {
 	private String id;

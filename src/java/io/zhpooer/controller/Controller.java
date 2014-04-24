@@ -1,6 +1,7 @@
 package io.zhpooer.controller;
 
 import io.zhpooer.bean.CustomerFormBean;
+import io.zhpooer.bean.Page;
 import io.zhpooer.domain.Customer;
 import io.zhpooer.exception.CustomerIdConnotBeEmpty;
 import io.zhpooer.service.BusinessService;
@@ -9,7 +10,6 @@ import io.zhpooer.util.WebUtil;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.ServletException;
@@ -151,8 +151,9 @@ public class Controller extends HttpServlet {
 
 	private void showAllCustomer(HttpServletRequest req, HttpServletResponse res)
 	        throws ServletException, IOException {
-		List<Customer> cs = s.findAll();
-		req.setAttribute("cs", cs);
+		String num = req.getParameter("num");
+		Page page = s.findPage(num);
+   		req.setAttribute("p", page);
 		req.getRequestDispatcher("/ListCustomers.jsp").forward(req, res);
 	}
 

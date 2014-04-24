@@ -20,7 +20,8 @@
        font-size: 12px
     }
     table {
-       font-size: 12px
+       font-size: 12px;
+        width: 100%;
     }
 </style>
 
@@ -28,10 +29,10 @@
     <a href="${pageContext.request.contextPath}/addCustomer.jsp">添加</a>
     <a href="javascript:delMulti();">删除</a>
 </div>
-<c:if test="${empty cs}">
+<c:if test="${empty p.recorder}">
    没有客户信息
 </c:if>
-<c:if test="${!empty cs}">
+<c:if test="${!empty p.recorder}">
 <form action="${pageContext.request.contextPath}/servlet/Controller?op=delMultiCustomer" method="post">
    <table border="1">
        <tr>
@@ -46,7 +47,7 @@
            <th> 描述 </th>
            <th> 操作 </th>
        </tr>
-       <c:forEach items="${cs}" var="c" varStatus="vs">
+       <c:forEach items="${p.recorder}" var="c" varStatus="vs">
            <tr class="${(vs.index%2)==0?'odd':'even'}">
               <td>
                   <input type="checkbox" name="ids" value="${c.id}"/>
@@ -67,8 +68,20 @@
        </c:forEach>
    </table>
 </form>
+<a href="${pageContext.request.contextPath}/servlet/Controller?op=showAllCustomer&num=${p.pageNum-1<1?1:p.pageNum-1}">上一页</a>
+ 第${p.pageNum}页 &nbsp;&nbsp; 共${p.totalPage}页
+<a href="${pageContext.request.contextPath}/servlet/Controller?op=showAllCustomer&num=${p.pageNum+1>p.totalPage?p.totalPage:p.pageNum+1}">下一页</a>
+<br/>
+<select name="num" onchange="selectPage(this);">
+    <c:forEach begin="1" end="${p.totalPage}" var="i">
+            <option value="${i}">第${i }页</option>
+    </c:forEach>
+</select>
 </c:if>
 <script type="text/javascript">
+function selectPage(selector){
+  window.location.href = "${pageContext.request.contextPath}/servlet/Controller?op=showAllCustomer&num=" + selector.value
+}
 function delMulti(){
 	 // 首先判断用户哟没有选择要删除的记录
    var selected = false;
@@ -80,7 +93,6 @@ function delMulti(){
 		  }
 	 }
 	 if(selected){
-	 // 选了, 二次提示, 确定要删除吗
 	   var sure = window.confirm("are you sure?");
 	   if(sure){
 		   document.forms[0].submit();

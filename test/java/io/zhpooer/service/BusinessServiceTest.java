@@ -72,7 +72,7 @@ public class BusinessServiceTest{
 		Customer c = s.findCustomerById(cs.get(0).getId());
 		assertNotNull(c);
 	}
-
+	
 	@Test(expected = CustomerIdConnotBeEmpty.class)
 	public void testUpdateCustomer() throws CustomerIdConnotBeEmpty {
 		Customer c = new Customer();
@@ -82,17 +82,19 @@ public class BusinessServiceTest{
 	@Test
 	public void testUpdateCustomer1() throws CustomerIdConnotBeEmpty {
 		s.addCustomer(c0);
-		List<Customer> cs = s.findAll();
+		@SuppressWarnings("deprecation")
+        List<Customer> cs = s.findAll();
  		Customer c = cs.get(0);
 		
 		c.setName("c3");
 		s.updateCustomer(c);
 	}
 
-	@Test
+	@SuppressWarnings("deprecation")
+    @Test
 	public void testDelCustomer() {
 		s.addCustomer(c0);
-		List<Customer> cs = s.findAll();
+        List<Customer> cs = s.findAll();
  		Customer c = cs.get(0);
 
 		s.delCustomer(c.getId());

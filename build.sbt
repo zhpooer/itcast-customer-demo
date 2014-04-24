@@ -1,4 +1,4 @@
-name := "servlet-demo2"
+name := "customer-manager-itcast"
 
 version := "1.0.0"
 
