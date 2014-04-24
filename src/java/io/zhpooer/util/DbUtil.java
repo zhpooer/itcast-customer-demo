@@ -10,7 +10,18 @@ import org.apache.tools.ant.taskdefs.SQLExec;
 import org.apache.tools.ant.types.EnumeratedAttribute;
 
 public class DbUtil {
+
 	public static String makeDerbyTempURL(String db) {
+		Path p = makeTmpDir();
+		return "jdbc:derby:" + p.toUri().getPath() + "/" + db + ";create=true";
+	}
+
+	public static String makeH2TempURL(String db) {
+		Path p = makeTmpDir();
+		return "jdbc:h2:" + p.toUri().getPath() + ":" + db;
+	}
+
+	private static Path makeTmpDir() {
 		Path path = new File("/tmp").toPath();
 		Path p = null;
 		try {
@@ -18,7 +29,7 @@ public class DbUtil {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-		return "jdbc:derby:" + p.toUri().getPath() + "/" + db + ";create=true";
+		return p;
 	}
 
 	public static void execSQL(String scriptPath, String driveClass,

@@ -1,20 +1,21 @@
 package io.zhpooer.util;
 
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
+
 /**
- * 通过设施 conf/jdbc.conf, 管理数据库连接, 参数样式如下,
- * debug=true|false, 如果debug为true, 运行derby临时数据库, 临时数据放在/tmp目录下
+ * 通过设施 conf/jdbc.conf, 管理数据库连接, 参数样式如下, debug=true|false,
+ * 如果debug为true, 运行derby临时数据库, 临时数据放在/tmp目录下 
  * driverClass=com.mysql.jdbc.Driver
- * url=jdbc:mysql://localhost:3306/test
- * user=root
- * password=root
+ * url=jdbc:mysql://localhost:3306/test user=root password=root
+ * 
  * @author poe
- *
+ * 
  */
 public class ConnManager {
 	private static String url;
@@ -29,13 +30,12 @@ public class ConnManager {
 	static {
 		Properties p = new Properties();
 		try {
-			// getClass().getResource("jdbc.conf").getPath()
-			p.load(ConnManager.class.getClassLoader().getResourceAsStream(
-			        "jdbc.conf"));
+			InputStream conf = ConnManager.class.getClassLoader().getResourceAsStream("jdbc.conf");
+			p.load(conf);
 			if (p.containsKey("debug")
 			        && Boolean.parseBoolean(p.getProperty(("debug")))) {
-				url = DbUtil.makeDerbyTempURL("sample");
-				driverClass = "org.apache.derby.jdbc.EmbeddedDriver";
+				url = DbUtil.makeH2TempURL("sample");
+				driverClass = "org.h2.Driver";
 			} else {
 				driverClass = p.getProperty(("driverClass"));
 				url = p.getProperty("url");
@@ -46,10 +46,10 @@ public class ConnManager {
 		} catch (Exception e) {
 			throw new ExceptionInInitializerError(e);
 		}
-		
+
 		if (p.containsKey("sqlScript")) {
 			String scriptPath = ConnManager.class.getClassLoader()
-					.getResource(p.getProperty("sqlScript")).getPath();
+			        .getResource(p.getProperty("sqlScript")).getPath();
 			DbUtil.execSQL(scriptPath, driverClass, url, user, password);
 		}
 	}

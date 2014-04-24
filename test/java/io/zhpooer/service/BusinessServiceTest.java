@@ -48,7 +48,7 @@ public class BusinessServiceTest{
 	public void teardown() throws SQLException{
 		Connection conn = ConnManager.getInstance().getConnection();
 		PreparedStatement stmt = conn.prepareStatement("truncate table customer");
-		stmt.executeUpdate();
+		stmt.executeUpdate();		
 	}
 
 	@Test
