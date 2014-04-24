@@ -23,14 +23,16 @@
        font-size: 12px
     }
 </style>
+
 <div>
-    <a href="#">添加</a>
-    <a href="#">删除</a>
+    <a href="${pageContext.request.contextPath}/addCustomer.jsp">添加</a>
+    <a href="javascript:delMulti();">删除</a>
 </div>
 <c:if test="${empty cs}">
    没有客户信息
 </c:if>
 <c:if test="${!empty cs}">
+<form action="${pageContext.request.contextPath}/servlet/Controller?op=delMultiCustomer" method="post">
    <table border="1">
        <tr>
            <th> 选择 </th>
@@ -58,13 +60,35 @@
               <td> ${c.type} </td>
               <td> ${c.description} </td>
               <td>
-                  <input type="button" value="修改"/>
-                  <input type="button" value="添加"/>
+              <a href="${pageContext.request.contextPath}/servlet/Controller?op=EditCustomerUI&id=${c.id}">编辑</a>
+              <a href="${pageContext.request.contextPath}/servlet/Controller?op=DeleteCustomer&id=${c.id}">删除</a>
               </td>
            </tr>
        </c:forEach>
    </table>
+</form>
 </c:if>
-
+<script type="text/javascript">
+function delMulti(){
+	 // 首先判断用户哟没有选择要删除的记录
+   var selected = false;
+	 var ids = document.getElementsByName("ids");
+	 for (var i=0;i<ids.length;i++){
+		  if(ids[i].checked){
+			  selected = true;
+			  break;
+		  }
+	 }
+	 if(selected){
+	 // 选了, 二次提示, 确定要删除吗
+	   var sure = window.confirm("are you sure?");
+	   if(sure){
+		   document.forms[0].submit();
+	   }  
+	 } else {
+		 alert("please select");
+	 }
+}
+</script>
 </body>
 </html>

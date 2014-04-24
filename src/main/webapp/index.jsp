@@ -8,7 +8,7 @@
 <title></title>
 </head>
 <body>
-<jsp:forward page="/servlet/Controller">
+<jsp:forward page="${pageContext.request.contextPath}/servlet/Controller">
     <jsp:param value="showAllCustomer" name="op"/>
 </jsp:forward>
 </body>

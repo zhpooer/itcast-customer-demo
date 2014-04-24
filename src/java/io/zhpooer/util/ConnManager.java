@@ -10,7 +10,7 @@ import java.util.Properties;
 
 /**
  * 通过设施 conf/jdbc.conf, 管理数据库连接, 参数样式如下, debug=true|false,
- * 如果debug为true, 运行derby临时数据库, 临时数据放在/tmp目录下 
+ * 如果debug为true, 运行h2临时数据库, 临时数据放在/tmp目录下 
  * driverClass=com.mysql.jdbc.Driver
  * url=jdbc:mysql://localhost:3306/test user=root password=root
  * 
