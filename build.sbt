@@ -47,3 +47,7 @@ libraryDependencies += "junit" % "junit" % "4.11" % "test"
 libraryDependencies += "com.novocode" % "junit-interface" % "0.10" % "test"
 
 libraryDependencies += "commons-beanutils" % "commons-beanutils" % "1.9.1"
+
+libraryDependencies += "org.apache.derby" % "derby" % "10.10.1.1"
+
+libraryDependencies += "org.apache.ant" % "ant" % "1.9.3"
