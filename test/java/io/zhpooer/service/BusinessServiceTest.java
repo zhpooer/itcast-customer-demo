@@ -60,14 +60,16 @@ public class BusinessServiceTest{
 	public void testFindAll() {
 		s.addCustomer(c0);
 		s.addCustomer(c1);
-		List<Customer> cs = s.findAll();
+		@SuppressWarnings("deprecation")
+        List<Customer> cs = s.findAll();
 		assertEquals(2, cs.size());
 	}
 
 	@Test
 	public void testFindCustomerById() {
 		s.addCustomer(c0);
-		List<Customer> cs = s.findAll();
+		@SuppressWarnings("deprecation")
+        List<Customer> cs = s.findAll();
 		cs.get(0);
 		Customer c = s.findCustomerById(cs.get(0).getId());
 		assertNotNull(c);

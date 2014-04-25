@@ -51,3 +51,5 @@ libraryDependencies += "commons-beanutils" % "commons-beanutils" % "1.9.1"
 libraryDependencies += "org.apache.ant" % "ant" % "1.9.3"
 
 libraryDependencies += "com.h2database" % "h2" % "1.4.177"
+
+libraryDependencies += "c3p0" % "c3p0" % "0.9.1.2"
