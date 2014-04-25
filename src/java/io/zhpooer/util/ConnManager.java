@@ -2,16 +2,16 @@ package io.zhpooer.util;
 
 import java.io.InputStream;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+
 /**
- * 通过设施 conf/jdbc.conf, 管理数据库连接, 参数样式如下, debug=true|false,
- * 如果debug为true, 运行h2临时数据库, 临时数据放在/tmp目录下 
- * driverClass=com.mysql.jdbc.Driver
+ * 通过设施 conf/jdbc.conf, 管理数据库连接, 参数样式如下, debug=true|false, 如果debug为true,
+ * 运行h2临时数据库, 临时数据放在/tmp目录下 driverClass=com.mysql.jdbc.Driver
  * url=jdbc:mysql://localhost:3306/test user=root password=root
  * 
  * @author poe
@@ -23,6 +23,7 @@ public class ConnManager {
 	private static String password = "";
 	private static ConnManager instance;
 	private static String driverClass;
+	private static ComboPooledDataSource ds;
 
 	private ConnManager() {
 	}
@@ -30,7 +31,8 @@ public class ConnManager {
 	static {
 		Properties p = new Properties();
 		try {
-			InputStream conf = ConnManager.class.getClassLoader().getResourceAsStream("jdbc.conf");
+			InputStream conf = ConnManager.class.getClassLoader()
+			        .getResourceAsStream("jdbc.conf");
 			p.load(conf);
 			if (p.containsKey("debug")
 			        && Boolean.parseBoolean(p.getProperty(("debug")))) {
@@ -42,6 +44,14 @@ public class ConnManager {
 				user = p.getProperty("user");
 				password = p.getProperty("password");
 			}
+			ds = new ComboPooledDataSource();
+			ds.setDriverClass(driverClass);
+			ds.setJdbcUrl(url);
+			ds.setUser(user);
+			ds.setPassword(password);
+			ds.setMaxPoolSize(40);
+			ds.setMinPoolSize(5);
+			ds.setInitialPoolSize(20);
 			Class.forName(driverClass);
 		} catch (Exception e) {
 			throw new ExceptionInInitializerError(e);
@@ -65,7 +75,7 @@ public class ConnManager {
 	}
 
 	public Connection getConnection() throws SQLException {
-		return DriverManager.getConnection(url, user, password);
+		return ds.getConnection();
 	}
 
 	public void release(Connection conn, Statement stmt, ResultSet rs) {
